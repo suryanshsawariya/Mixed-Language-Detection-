@@ -1,0 +1,23 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Large Datasets & Trained Model Binaries (Exceeding GitHub 100MB file limit)
+data/raw/*.csv
+data/processed/*.csv
+models/saved/xlmr/*.safetensors
+models/saved/xlmr/*.bin
+models/saved/xlmr/checkpoints/
+
+# IDE & OS Files
+.vscode/
+.idea/
+.DS_Store
+*.tmp
