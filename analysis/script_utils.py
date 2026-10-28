@@ -1,22 +1,61 @@
 import re
 
-# Common English vocabulary list for post-processing disambiguation
+# Comprehensive Common English vocabulary list for post-processing disambiguation
 COMMON_ENGLISH_WORDS = {
-    "college", "assignment", "submit", "complete", "presentation", "today", "meeting",
-    "lecture", "class", "exam", "test", "course", "project", "work", "job", "time",
-    "but", "and", "or", "if", "because", "so", "then", "have", "has", "had", "is", "are",
-    "was", "were", "been", "being", "be", "do", "does", "did", "done", "doing", "can",
-    "could", "should", "would", "may", "might", "must", "shall", "will", "good", "bad",
-    "great", "late", "early", "new", "old", "first", "last", "next", "best", "better",
-    "presentation", "report", "file", "document", "online", "offline", "system", "code"
+    # Pronouns & Auxiliaries
+    "i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them",
+    "my", "your", "his", "their", "our", "its", "myself", "yourself",
+    "is", "am", "are", "was", "were", "be", "been", "being",
+    "have", "has", "had", "do", "does", "did", "done", "doing",
+    "can", "could", "should", "would", "may", "might", "must", "shall", "will",
+
+    # Conjunctions & Prepositions
+    "and", "or", "but", "if", "because", "so", "then", "for", "with", "about",
+    "against", "between", "into", "through", "during", "before", "after",
+    "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under",
+
+    # Common Daily Nouns & Verbs & Adjectives
+    "weather", "today", "tomorrow", "yesterday", "tired", "happy", "sad", "good", "bad",
+    "great", "movie", "film", "cinema", "ending", "boring", "interesting", "nice",
+    "college", "school", "university", "assignment", "submit", "complete", "completed",
+    "presentation", "meeting", "lecture", "class", "exam", "test", "course", "project",
+    "work", "job", "time", "day", "night", "morning", "evening", "name", "live", "living",
+    "go", "going", "gone", "went", "come", "coming", "came", "see", "look", "watch",
+    "think", "know", "want", "like", "love", "need", "make", "take", "get", "got",
+    "first", "last", "next", "best", "better", "report", "file", "document",
+    "online", "offline", "system", "code", "data", "deep", "learning", "nlp",
+    "model", "detection", "language", "mixed", "text", "analysis", "user", "input"
 }
 
-# Basic POS tag rules for Hindi and English tokens for morphological analysis
-HINDI_PRONOUNS = {"मेरा", "मैं", "तुम", "आप", "वह", "यह", "हम", "वे", "मेरा", "मेरी", "मेरे", "मुझे", "तुझे", "mera", "main", "tum", "aap", "woh", "yeh", "hum", "ve"}
-HINDI_VERBS = {"है", "हूँ", "हैं", "था", "थी", "थे", "होगा", "रहता", "रहती", "रहते", "जाना", "करना", "हुआ", "गया", "hai", "hoon", "hain", "tha", "thi", "the", "rehta", "jaana", "karna", "hua"}
-HINDI_POSTPOSITIONS = {"में", "पर", "से", "को", "का", "की", "के", "ने", "तक", "mein", "par", "se", "ko", "ka", "ki", "ke", "ne", "tak"}
-ENGLISH_PRONOUNS = {"i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "their", "our"}
-ENGLISH_AUX_VERBS = {"is", "am", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "can", "could", "would", "should", "will", "may", "might", "must"}
+# Standard Hindi lexemes (Devanagari + Romanized)
+HINDI_PRONOUNS = {
+    "मेरा", "मेरी", "मेरे", "मैं", "तुम", "आप", "वह", "यह", "हम", "वे", "मुझे", "तुझे",
+    "उसका", "उसकी", "उसके", "इनका", "इनकी", "इनके", "हमारा", "हमारी", "हमारे",
+    "mera", "meri", "mere", "main", "mai", "mein", "tum", "aap", "woh", "wo", "yeh", "ye", "hum", "ham", "ve"
+}
+
+HINDI_VERBS = {
+    "है", "हूँ", "हैं", "हो", "था", "थी", "थे", "रहता", "रहती", "रहते", "रहना",
+    "जाना", "जाता", "जाती", "जाते", "करना", "करता", "करती", "करते", "किया", "की", "किया",
+    "हुआ", "हुई", "हुए", "होगा", "होगी", "होंगे",
+    "hai", "hoon", "hain", "ho", "tha", "thi", "the", "rehta", "rehti", "rehte",
+    "jaana", "jana", "jaate", "karna", "karo", "karta", "karti", "kya", "hua", "hui"
+}
+
+HINDI_POSTPOSITIONS = {
+    "में", "पर", "से", "को", "का", "की", "के", "ने", "तक", "द्वारा", "लिए",
+    "mein", "par", "se", "ko", "ka", "ki", "ke", "ne", "tak", "liye"
+}
+
+ENGLISH_PRONOUNS = {
+    "i", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "their", "our"
+}
+
+ENGLISH_AUX_VERBS = {
+    "is", "am", "are", "was", "were", "be", "been", "being",
+    "have", "has", "had", "do", "does", "did", "can", "could", "would", "should", "will", "may", "might", "must"
+}
+
 
 def split_words_keep_punct(text: str) -> list[str]:
     """
@@ -25,10 +64,10 @@ def split_words_keep_punct(text: str) -> list[str]:
     """
     if not text:
         return []
-    # Devanagari range excluding danda \u0964 & \u0965
     pattern = r'[\u0900-\u0963\u0966-\u097F]+|[a-zA-Z0-9_]+|[^\w\s\u0900-\u097F]|\u0964|\u0965'
     tokens = re.findall(pattern, text, re.UNICODE)
     return [t.strip() for t in tokens if t.strip()]
+
 
 def detect_script(token: str) -> str:
     """
@@ -44,6 +83,7 @@ def detect_script(token: str) -> str:
         return "Latin"
     return "Other"
 
+
 def get_script_distribution(tokens: list[str]) -> dict:
     """
     Calculate character-level script distribution in text.
@@ -51,7 +91,7 @@ def get_script_distribution(tokens: list[str]) -> dict:
     dev_chars = 0
     lat_chars = 0
     other_chars = 0
-    
+
     full_text = " ".join(tokens)
     for char in full_text:
         if char.isspace():
@@ -63,23 +103,24 @@ def get_script_distribution(tokens: list[str]) -> dict:
             lat_chars += 1
         else:
             other_chars += 1
-            
+
     total = dev_chars + lat_chars + other_chars
     if total == 0:
         return {"devanagari": 0.0, "latin": 0.0, "other": 0.0}
-        
+
     return {
         "devanagari": round((dev_chars / total) * 100, 1),
         "latin": round((lat_chars / total) * 100, 1),
         "other": round((other_chars / total) * 100, 1)
     }
 
+
 def annotate_pos_and_morphology(token: str, lang: str, script: str) -> dict:
     """
     Perform lightweight POS tagging & morphological analysis.
     """
     t_lower = token.lower()
-    
+
     if script in ["Punctuation/Numeric", "Number"]:
         pos = "PUNCT / NUM"
         morph = "Non-Linguistic Token"
@@ -112,8 +153,9 @@ def annotate_pos_and_morphology(token: str, lang: str, script: str) -> dict:
     else:
         pos = "SYM / OTHER"
         morph = "Other Symbol / Token"
-        
+
     return {"pos": pos, "morphology": morph}
+
 
 def determine_input_type(word_tokens: list[dict], switches_count: int) -> str:
     """
@@ -127,19 +169,24 @@ def determine_input_type(word_tokens: list[dict], switches_count: int) -> str:
     """
     if not word_tokens:
         return "OTHER / NON-LINGUISTIC"
-        
+
     hi_count = sum(1 for w in word_tokens if w["language"] == "hi")
     en_count = sum(1 for w in word_tokens if w["language"] == "en")
     ot_count = sum(1 for w in word_tokens if w["language"] == "ot")
     total = len(word_tokens)
-    
+
     if total == 0:
         return "OTHER / NON-LINGUISTIC"
-    if hi_count == total:
+
+    # Check script breakdown of original tokens
+    dev_tokens = sum(1 for w in word_tokens if w.get("script") == "Devanagari")
+    lat_tokens = sum(1 for w in word_tokens if w.get("script") == "Latin")
+
+    if hi_count == total and lat_tokens == 0:
         return "PURE HINDI"
-    if en_count == total:
+    if en_count == total and dev_tokens == 0:
         return "PURE ENGLISH"
-    if hi_count > 0 and en_count > 0 and switches_count > 0:
+    if (hi_count > 0 and en_count > 0) or (dev_tokens > 0 and lat_tokens > 0):
         return "HINDI-ENGLISH CODE-MIXED"
     if hi_count > en_count:
         return "PREDOMINANTLY HINDI"

@@ -9,15 +9,46 @@ __pycache__/
 *$py.class
 .pytest_cache/
 
-# Large Datasets & Trained Model Binaries (Exceeding GitHub 100MB file limit)
+# Large Datasets (exceed GitHub's 100 MB file limit)
 data/raw/*.csv
+data/raw/*.tsv
+data/raw/*.json
+data/raw/*.jsonl
 data/processed/*.csv
-models/saved/xlmr/*.safetensors
-models/saved/xlmr/*.bin
-models/saved/xlmr/checkpoints/
+data/processed/*.tsv
+data/processed/*.json
+data/processed/*.jsonl
+
+# HuggingFace download cache
+data/raw/.cache/
+
+# Trained Model Binaries & Artifacts
+models/saved/**/*.safetensors
+models/saved/**/*.bin
+models/saved/**/*.joblib
+models/saved/**/*.pkl
+models/saved/**/*.pt
+models/saved/**/*.pth
+models/saved/**/tokenizer.json
+models/saved/**/checkpoints/
+
+# Training Checkpoints
+training/checkpoints/
+training/runs/
+training/logs/
+
+# Jupyter Notebooks Checkpoints
+.ipynb_checkpoints/
+*.ipynb
 
 # IDE & OS Files
 .vscode/
 .idea/
 .DS_Store
+Thumbs.db
 *.tmp
+
+# Logs & Misc Outputs
+*.log
+logs/
+outputs/
